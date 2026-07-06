@@ -351,6 +351,28 @@
     color:#5a4a20;
   }
   .delivery-notice strong { color:#3d2f0a; }
+  .facebook-order-notice {
+    background:linear-gradient(135deg, #eef4fc 0%, #e3edf9 100%);
+    border-top:1px solid #c8ddf0;
+    border-bottom:1px solid #c8ddf0;
+    padding:1rem 1.3rem; margin:0;
+    text-align:center; font-size:0.86rem; line-height:1.7;
+    color:#3a5070;
+  }
+  .facebook-order-notice a {
+    display:inline-block;
+    margin-top:0.55rem;
+    background:linear-gradient(135deg, #1877f2 0%, #0d5dbf 100%);
+    color:#fff; font-weight:700; font-size:0.88rem;
+    padding:0.65rem 1.2rem; border-radius:10px;
+    text-decoration:none;
+    box-shadow:0 4px 14px rgba(24,119,242,0.35);
+    transition:transform 0.15s, box-shadow 0.15s;
+  }
+  .facebook-order-notice a:hover {
+    transform:translateY(-2px);
+    box-shadow:0 6px 18px rgba(24,119,242,0.45);
+  }
   .site-tabs {
     display:flex; gap:0.35rem; padding:0.6rem 1rem 0;
     justify-content:center; flex-wrap:wrap;
@@ -749,6 +771,12 @@
   <em><strong>Entrega a domicilio:</strong> $5 por <strong>un solo plato</strong> · <strong>Entrega gratis</strong> con <strong>2 o más platos</strong>.</em>
 </div>
 
+<div class="facebook-order-notice">
+  Prefer to order on Facebook? Message us there and we'll confirm your order by text.<br>
+  <em>¿Prefieres ordenar por Facebook? Envíanos un mensaje y te confirmamos por mensaje.</em><br>
+  <a href="https://www.facebook.com/people/Chelys-Cooking/61584878815551/" target="_blank" rel="noopener">Order on Facebook / Ordenar en Facebook →</a>
+</div>
+
 <div class="main-content" id="mainContent">
 
   <div class="section">
@@ -879,7 +907,7 @@
    Only edit the line right below. Do NOT include the @ symbol.
    Solo edita la línea de abajo. NO incluyas el símbolo @.
 
-   Example / Ejemplo:   ChelysCooking
+   Example / Ejemplo:   Stephperez725
 
    ============================================================================= */
 
@@ -948,7 +976,10 @@ function switchTab(name) {
 }
 
 
-const VENMO_USERNAME = 'ChelysCooking';
+const VENMO_USERNAME = 'Stephperez725';
+
+/* Paste the /exec URL from chelyscooking@gmail.com Apps Script after deploy */
+const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxxMsWY9URhMc6tD-LDFOv0uZQGjLKZVuaAtfg3gm4xNcs586qbDw0Q2KK3PM0uAjW4/exec';
 /* ============================================================================= */
 
 
@@ -1148,6 +1179,10 @@ function submitOrder() {
   let hasItems = false;
   MENU.forEach(i => { if (qty[i.id] > 0) hasItems = true; });
   if (!hasItems) { alert('Please select at least one item. / Por favor selecciona al menos un item.'); return; }
+  if (!FORM_ENDPOINT || FORM_ENDPOINT.includes('PASTE_NEW_')) {
+    alert('Order form is not configured yet — missing script URL.');
+    return;
+  }
 
   const deliveryFee = getDeliveryFee();
   const total = getOrderTotal();
@@ -1158,7 +1193,7 @@ function submitOrder() {
   btn.disabled = true;
   btn.textContent = 'Sending... / Enviando...';
 
-  fetch('https://script.google.com/macros/s/AKfycbxwBWB6BY03nIc7IbVb9p15PJKA1jokME_Yho4oibVLuC7KFYG-Pt4SBa12MCMLaQVk/exec', {
+  fetch(FORM_ENDPOINT, {
     method: 'POST',
     mode: 'no-cors',
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
