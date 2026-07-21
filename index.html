@@ -976,24 +976,51 @@ function switchTab(name) {
 }
 
 
+/* ============================================================================
+   EASY SETTINGS — change these first (like important variables at the top)
+   ============================================================================ */
 const VENMO_USERNAME = 'Stephperez725';
 
 /* Paste the /exec URL from chelyscooking@gmail.com Apps Script after deploy */
 const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxxMsWY9URhMc6tD-LDFOv0uZQGjLKZVuaAtfg3gm4xNcs586qbDw0Q2KK3PM0uAjW4/exec';
-/* ============================================================================= */
-
 
 /* Delivery fee: $5 when exactly 1 plate is ordered for delivery. 2+ plates = free. */
 const DELIVERY_FEE_SINGLE_PLATE = 5;
 
+
+/* ============================================================================
+   ███  MENU PRICES & ITEMS — EDIT HERE  ███
+
+   CHANGE A PRICE:
+     Find the item below and change the number after  price:
+     Example:  price:13  →  price:15
+
+   ADD A NEW ITEM:
+     Copy one whole line inside the [ ], paste a new line, then change:
+       id     = short unique code (no spaces)  e.g. "pupusas"
+       name   = what customers see             e.g. "Pupusas"
+       price  = dollar amount                  e.g. 12
+       en     = English description
+       es     = Spanish description
+     Example new line:
+       { id:"pupusas", name:"Pupusas", price:12, en:"Stuffed corn cakes", es:"Tortillas rellenas" },
+
+   REMOVE AN ITEM:
+     Delete that whole line (or comment it out with // at the start).
+
+   Current menu (Jul 2026):
+     Tortillas de Harina $13 · Enrolladas $13 · Garnachas $15
+     Chucos $15 · Quesadillas al horno $13 · Churrasco $15
+   ============================================================================ */
 const MENU = [
-  { id:"harina",      name:"Harina",      price:13, en:"Traditional Guatemalan flatbread",  es:"Pan tradicional guatemalteco" },
-  { id:"garnachas",   name:"Garnachas",   price:12, en:"8 pieces per order",                es:"8 piezas por orden" },
-  { id:"churrasco",   name:"Churrasco",   price:15, en:"Grilled steak, Guatemalan style",   es:"Carne asada estilo guatemalteco" },
-  { id:"quesadillas", name:"Quesadillas", price:13, en:"Guatemalan style quesadillas",      es:"Quesadillas estilo guatemalteco" },
-  { id:"shuco",       name:"Shuco",       price:14, en:"Guatemalan street hot dog",         es:"Hot dog callejero guatemalteco" },
-  { id:"enrollados",  name:"Enrolladas",  price:12, en:"5 pieces per order",                es:"5 piezas por orden" },
+  { id:"harina",      name:"Tortillas de Harina", price:13, en:"Flour tortillas, Guatemalan style",     es:"Tortillas de harina estilo guatemalteco" },
+  { id:"enrollados",  name:"Enrolladas",           price:13, en:"5 pieces per order",                    es:"5 piezas por orden" },
+  { id:"garnachas",   name:"Garnachas",            price:15, en:"8 pieces per order",                    es:"8 piezas por orden" },
+  { id:"shuco",       name:"Chucos",               price:15, en:"Guatemalan street hot dog",             es:"Hot dog callejero guatemalteco" },
+  { id:"quesadillas", name:"Quesadillas al horno", price:13, en:"Oven-baked Guatemalan quesadillas",     es:"Quesadillas al horno estilo guatemalteco" },
+  { id:"churrasco",   name:"Churrasco",            price:15, en:"Grilled steak, Guatemalan style",       es:"Carne asada estilo guatemalteco" },
 ];
+/* ===== end MENU — everything below uses MENU automatically ===== */
 
 let qty = {};
 MENU.forEach(i => qty[i.id] = 0);
